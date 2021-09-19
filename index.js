@@ -1,7 +1,7 @@
 const inquirer = require('inquirer');
-const mysql = ('mysql2')
 require('console.table');
-const db = require('./db/connection')
+const DB = require('./db/connection')
+
 
 
 
@@ -45,10 +45,12 @@ function init() {
         })
 
 }
+
 init()
 
 function viewEmployees() {
-    console.table('')
+    DB.getAllEmployees()
+    init()
 }
     
   

@@ -1,5 +1,5 @@
 const mysql = require('mysql2');
-
+require('console.table');
 
 // connect to database
 const db = mysql.createConnection(
@@ -12,17 +12,36 @@ const db = mysql.createConnection(
     console.log(`Connected to company database.`)
 )
 
-// query database
-db.query('SELECT * FROM employee', function (err, results) {
-    console.log(results);
-});
+class Database {
+    constructor(connection) {
+        this.connection = connection;
+    }
 
-db.query('SELECT * FROM role', function (err, results) {
-    console.log(results);
-});
+    getAllDepartments() {
+        return this.connection.query('SELECT * FROM department', function (err, results) {
+            console.table(results);
+        });
+    }
 
-db.query('SELECT * FROM employee', function (err, results) {
-    console.log(results);
-});
+    getAllRoles() {
+        return this.connection.query('SELECT * FROM role', function (err, results) {
+            console.table(results);
+        });
+    }
 
-module.exports = db
+    getAllEmployees() {
+        return this.connection.query('SELECT * FROM employee', function (err, results) {
+            console.table(results);
+        });
+    }
+
+    getDepartmentById(deptId) {
+        return this.connection.query(`SELECT * FROM department WHERE id = ${deptId}`, function (err, results) {
+            console.table(results);
+        });
+    }
+   
+}
+
+module.exports = new Database(db) 
+
