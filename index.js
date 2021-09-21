@@ -1,6 +1,11 @@
 const inquirer = require('inquirer');
 require('console.table');
 const DB = require('./db/connection')
+const departments = []
+const roles = []
+const managers = []
+const employees = []
+
 
 
 
@@ -11,10 +16,10 @@ function init() {
     inquirer.prompt([
 
         {
-            type: 'list',
+            type: 'rawlist',
             name: 'initialAction',
             message: 'What would you like to do?',
-            choices: ['View All Employees', 'Add Employee', 'Update Employee Role', 'View All Roles', 'Add Role', 'View All Departments', 'Add Department', 'Quit',]
+            choices: ['View All Employees', 'Add Employee', 'Update Employee Role', 'View All Roles', 'Add Role', 'View All Departments', 'Add Department', 'Quit']
         }
     ])
         .then(res => {
@@ -49,35 +54,162 @@ function init() {
 init()
 
 function viewEmployees() {
+    // querying the database to view all employees
     DB.getAllEmployees()
     init()
 }
+
+function viewAllRoles() {
+    // querying the database to view all roles
+    DB.getAllRoles()
+    init()
+
+}
+
+function viewAllDepartments() {
+    // querying the database to view all the departments 
+    DB.getAllDepartments()
+    init()
+    
+}
+
+
     
   
 function addEmployee() {
+
+    inquirer.prompt([
+
+        {
+            name: 'newEmployeeFirstName',
+            message: 'What is the employee\'s first name?',
+        },
+
+        {
+            name: 'newEmployeeLastName',
+            message: 'What is the employee\'s last name?'
+        },
+
+        {
+            type: 'list',
+            name: 'newEmployeeRole',
+            message: 'What is the new employee\'s role?',
+            choices: [`${roles}`]
+        },
+
+        {
+            type: 'list',
+            name: 'newEmployeeManager',
+            message: 'Who is the new employee\'s manager?',
+            choices: [`${managers}`]
+
+        }
+
+    ])
+
+    
+    .then (res => {
+
+        employees.push(res) // pushing new employee added to the employees array
+
+        console.log('Added New Employee')
+
+    })
+
+    init()
+    
 
 }
 
 function updateEmployeeRole() {
 
-}
+    inquirer.prompt([
 
-function viewAllRoles() {
+        {
+            type: 'list',
+            name: 'employeeNewRole',
+            message: 'Which employee\'s role would you like to update?',
+            choices: [`${employees}`]
+        },
+
+        {
+            name: 'newEmployeeRoleName',
+            message: 'Which role do you want to assign the selected employee?',
+            choices: [`${roles}`]
+        }
+
+        // how do I make the table change?
+
+    ])
+    .then (res => {
+
+        console.log('Updated employee role')
+
+    })
+
+    init()
+
+
 
 }
 
 function addRole() {
 
-}
+    inquirer.prompt([
 
-function viewAllDepartments() {
+        {
+            name: 'newRole',
+            message: 'What is the name of the role?',
+        },
+
+        {
+            name: 'newRoleSalary',
+            message: 'What is the salary of the role?'
+        },
+
+        {
+            type: 'list',
+            name: 'newRolesDepartment',
+            message: 'Which department does this role belong to?',
+            choices: [`${departments}`]
+        }
+
+    ])
+    .then (res => {
+
+        roles.push(res) // pushing new role added to the roles array
+
+        console.log('Added New Role to the database')
+
+    })
+
+    init()
 
 }
 
 function addDepartment() {
 
+    inquirer.prompt([
+
+        {
+            name: 'newDepartment',
+            message: 'What is the name of the department?',
+        },
+
+    ])
+    .then (res => {
+    
+        departments.push(res) // pushing new department added to addedDepartments array
+
+        console.log('Added New Service')
+
+    })
+
+    init()
+
 }
 
 function quit() {
+    process.exit()
 
 }

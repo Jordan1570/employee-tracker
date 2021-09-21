@@ -12,15 +12,21 @@ CREATE TABLE department(
 CREATE TABLE role(
     id INT PRIMARY KEY,
     title VARCHAR(30),
-    salary DECIMAL,
     FOREIGN KEY (department_id)
     REFERENCES department(id)
+    salary DECIMAL,
 );
 
 CREATE TABLE employee(
     id INT PRIMARY KEY,
     first_name VARCHAR(30),
     last_name VARCHAR(30),
-    role_id INT,
-    manager_id INT
+    FOREIGN KEY (title)
+    REFERENCES role(title),
+    FOREIGN KEY (department)
+    REFERENCES department(name),
+    FOREIGN KEY (salary)
+    REFERENCES role(salary)
+    FOREIGN KEY (manager)
+    REFERENCES employee(first_name, last_name)
 );

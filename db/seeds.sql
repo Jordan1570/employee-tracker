@@ -15,13 +15,13 @@ INSERT INTO role (id, title, salary, department_id)
            (8, "Lawyer", "190000", 1),
            (9, "Sales Lead", "100000", 2);
          
-INSERT INTO employee (id, first_name, last_name, role_id, manager_id)
-    VALUES (1, "Jeffrey", "Knight", 1,),
-           (2, "Juwan", "Dolbrice", 2, 1),
-           (3, "Jordan" "Scott", 3,),
-           (4, "Kyle", "Phipps", 4, 3),
-           (5, "Maria", "Roberts", 5,),
-           (6, "Serina", "Smith", 6, 5),
-           (7, "Corie", "Knight", 7,),
-           (8, "Aliah", "Knight" 8, 7),
-           (9, "Diane", "Scott", 9, 3);
+INSERT INTO employee (id, first_name, last_name, title, department, salary, manager)
+    VALUES (1, "Jeffrey", "Knight", "Saled Lead", "Sales", "100000", "null"),
+           (2, "Juwan", "Dolbrice", "Salesperson" , "Sales", "80000", "Jeffrey Knight" ),
+           (3, "Jordan" "Scott", "Lead Engineer", "Engineering", "150000", "null" ),
+           (4, "Kyle", "Phipps", "Software Engineer", "Engineering", "120000", "Jordan Scott" ),
+           (5, "Maria", "Roberts", "Account Manager", "Finance", "160000", "null"),
+           (6, "Serina", "Smith", "Accountant", "Finance", "125000", "Maria Roberts"),
+           (7, "Corie", "Knight", "Legal Team Lead", "Legal", "250000", "null"),
+           (8, "Aliah", "Knight", "Lawyer", "Legal", "190000", "Corie Knight"),
+           (9, "Diane", "Scott", "Sales Lead", "Sales", "100000", "null" );

@@ -40,6 +40,12 @@ class Database {
             console.table(results);
         });
     }
+
+    getRoleById(roleId) {
+        return this.connection.query(`SELECT * FROM role WHERE id = ${roleId}`, function (err, results) {
+            console.table(results);
+        });
+    }
    
 }
 
