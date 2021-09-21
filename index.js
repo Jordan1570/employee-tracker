@@ -6,17 +6,13 @@ const roles = []
 const managers = []
 const employees = []
 
-
-
-
-
 // 
 function init() {
 
     inquirer.prompt([
 
         {
-            type: 'rawlist',
+            type: 'list',
             name: 'initialAction',
             message: 'What would you like to do?',
             choices: ['View All Employees', 'Add Employee', 'Update Employee Role', 'View All Roles', 'Add Role', 'View All Departments', 'Add Department', 'Quit']
@@ -114,10 +110,10 @@ function addEmployee() {
 
         console.log('Added New Employee')
 
+        init()
+
     })
 
-    init()
-    
 
 }
 
@@ -145,24 +141,25 @@ function updateEmployeeRole() {
 
         console.log('Updated employee role')
 
+        init()
     })
-
-    init()
-
-
 
 }
 
 function addRole() {
 
+    console.log('Adding Role')
+
     inquirer.prompt([
 
         {
+            type: 'input',
             name: 'newRole',
             message: 'What is the name of the role?',
         },
 
         {
+            type: 'input',
             name: 'newRoleSalary',
             message: 'What is the salary of the role?'
         },
@@ -177,13 +174,12 @@ function addRole() {
     ])
     .then (res => {
 
-        roles.push(res) // pushing new role added to the roles array
+        addRole()
 
         console.log('Added New Role to the database')
 
+        init()
     })
-
-    init()
 
 }
 
@@ -199,13 +195,9 @@ function addDepartment() {
     ])
     .then (res => {
     
-        departments.push(res) // pushing new department added to addedDepartments array
-
-        console.log('Added New Service')
+        addDepartment()
 
     })
-
-    init()
 
 }
 

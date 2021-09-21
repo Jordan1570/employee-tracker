@@ -21,12 +21,9 @@ CREATE TABLE employee(
     id INT PRIMARY KEY,
     first_name VARCHAR(30),
     last_name VARCHAR(30),
-    FOREIGN KEY (title)
-    REFERENCES role(title),
-    FOREIGN KEY (department)
-    REFERENCES department(name),
-    FOREIGN KEY (salary)
-    REFERENCES role(salary)
-    FOREIGN KEY (manager)
-    REFERENCES employee(first_name, last_name)
+    role_id INT
+    FOREIGN KEY (role_id)
+    REFERENCES role(id),
+    FOREIGN KEY (manager_id)
+    REFERENCES employee(id)
 );

@@ -46,7 +46,24 @@ class Database {
             console.table(results);
         });
     }
-   
+
+    addDepartment(newDept) {
+        return this.connection.query(`INSERT INTO departments (name) VALUES ${newDept}`, function (err, results) {
+            console.log(results)
+        });
+    }
+
+    addRole(newRole) {
+        return this.connection.query(`INSERT INTO role (name) VALUES ('${newRole}')`, function (err, results){
+            console.log(results)
+        });
+    }
+
+    
+
+
+    
+    
 }
 
 module.exports = new Database(db) 
