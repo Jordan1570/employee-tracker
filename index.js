@@ -52,27 +52,52 @@ init()
 function viewEmployees() {
     // querying the database to view all employees
     DB.getAllEmployees()
-    init()
+        .then(([rows, fields]) => {
+            console.table(rows);
+        })
+
+        .then(() => {
+            init()
+        })
+        .catch(console.log)
+
 }
+
 
 function viewAllRoles() {
     // querying the database to view all roles
     DB.getAllRoles()
-    init()
+        .then(([rows, fields]) => {
+            console.table(rows);
+        })
+
+        .then(() => {
+            init()
+        })
+        .catch(console.log)
 
 }
 
 function viewAllDepartments() {
     // querying the database to view all the departments 
     DB.getAllDepartments()
-    init()
-    
+        .then(([rows, fields]) => {
+            console.table(rows);
+        })
+
+        .then(() => {
+            init()
+        })
+        .catch(console.log)
+        
+
 }
 
 
-    
-  
+
+
 function addEmployee() {
+    DB.getAllEmployees
 
     inquirer.prompt([
 
@@ -86,6 +111,7 @@ function addEmployee() {
             message: 'What is the employee\'s last name?'
         },
 
+        
         {
             type: 'list',
             name: 'newEmployeeRole',
@@ -103,21 +129,23 @@ function addEmployee() {
 
     ])
 
-    
-    .then (res => {
 
-        employees.push(res) // pushing new employee added to the employees array
+        .then(res => {
 
-        console.log('Added New Employee')
 
-        init()
 
-    })
+            console.log('Added New Employee')
+
+            init()
+
+        })
 
 
 }
 
 function updateEmployeeRole() {
+
+    viewEmployees()
 
     inquirer.prompt([
 
@@ -125,24 +153,26 @@ function updateEmployeeRole() {
             type: 'list',
             name: 'employeeNewRole',
             message: 'Which employee\'s role would you like to update?',
-            choices: [`${employees}`]
+            choices: [``]
         },
 
         {
             name: 'newEmployeeRoleName',
             message: 'Which role do you want to assign the selected employee?',
-            choices: [`${roles}`]
+            choices: []
         }
 
-        // how do I make the table change?
+
 
     ])
-    .then (res => {
+        .then(res => {
 
-        console.log('Updated employee role')
 
-        init()
-    })
+
+            console.log('Updated employee role')
+
+            init()
+        })
 
 }
 
@@ -172,14 +202,14 @@ function addRole() {
         }
 
     ])
-    .then (res => {
+        .then(res => {
 
-        addRole()
+            addRole()
 
-        console.log('Added New Role to the database')
+            console.log('Added New Role to the database')
 
-        init()
-    })
+            init()
+        })
 
 }
 
@@ -193,11 +223,11 @@ function addDepartment() {
         },
 
     ])
-    .then (res => {
-    
-        addDepartment()
+        .then(res => {
 
-    })
+            addDepartment()
+
+        })
 
 }
 

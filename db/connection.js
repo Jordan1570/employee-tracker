@@ -1,3 +1,4 @@
+const inquirer = require('inquirer');
 const mysql = require('mysql2');
 require('console.table');
 
@@ -18,53 +19,51 @@ class Database {
     }
 
     getAllDepartments() {
-        return this.connection.query('SELECT * FROM department', function (err, results) {
-            console.table(results);
-        });
+        return this.connection.promise().query('SELECT * FROM department')
+    }
+
+    getAllManagers() {
+        return this.connection.promise()
     }
 
     getAllRoles() {
-        return this.connection.query('SELECT * FROM role', function (err, results) {
-            console.table(results);
-        });
+        return this.connection.promise().query('SELECT * FROM role')
     }
 
     getAllEmployees() {
-        return this.connection.query('SELECT * FROM employee', function (err, results) {
-            console.table(results);
-        });
+        return this.connection.promise().query('SELECT * FROM employee');
     }
 
     getDepartmentById(deptId) {
-        return this.connection.query(`SELECT * FROM department WHERE id = ${deptId}`, function (err, results) {
+        return this.connection.promise().query(`SELECT * FROM department WHERE id = ${deptId}`, function (err, results) {
             console.table(results);
         });
     }
 
     getRoleById(roleId) {
-        return this.connection.query(`SELECT * FROM role WHERE id = ${roleId}`, function (err, results) {
+        return this.connection.promise().query(`SELECT * FROM role WHERE id = ${roleId}`, function (err, results) {
             console.table(results);
         });
     }
 
     addDepartment(newDept) {
-        return this.connection.query(`INSERT INTO departments (name) VALUES ${newDept}`, function (err, results) {
+        return this.connection.promise().query(`INSERT INTO departments (name) VALUES ${newDept}`, function (err, results) {
             console.log(results)
         });
     }
 
     addRole(newRole) {
-        return this.connection.query(`INSERT INTO role (name) VALUES ('${newRole}')`, function (err, results){
+        return this.connection.promise().query(`INSERT INTO role (name) VALUES ('${newRole}')`, function (err, results) {
             console.log(results)
         });
     }
 
-    
+    updateEmployeeRole(newEmployeeRole, employeeId) {
 
+        return this.connection.promise().query('SELECT * FROM employee')
 
-    
-    
+    }
 }
 
-module.exports = new Database(db) 
+module.exports = new Database(db)
 
