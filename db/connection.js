@@ -2,7 +2,7 @@ const inquirer = require('inquirer');
 const mysql = require('mysql2');
 require('console.table');
 
-// connect to database
+//database connection
 const db = mysql.createConnection(
     {
         host: 'localhost',
@@ -22,9 +22,7 @@ class Database {
         return this.connection.promise().query('SELECT * FROM department')
     }
 
-    getAllManagers() {
-        return this.connection.promise()
-    }
+     
 
     getAllRoles() {
         return this.connection.promise().query('SELECT * FROM role')
@@ -60,7 +58,7 @@ class Database {
 
     updateEmployeeRole(newEmployeeRole, employeeId) {
 
-        return this.connection.promise().query('SELECT * FROM employee')
+        return this.connection.promise().query(`UPDATE employee SET role_id = ${newEmployeeRole} WHERE id = ${employeeId}`)
 
     }
 }

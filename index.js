@@ -4,7 +4,6 @@ const DB = require('./db/connection')
 const departments = []
 const roles = []
 const managers = []
-const employees = []
 
 // 
 function init() {
@@ -89,7 +88,7 @@ function viewAllDepartments() {
             init()
         })
         .catch(console.log)
-        
+
 
 }
 
@@ -97,7 +96,6 @@ function viewAllDepartments() {
 
 
 function addEmployee() {
-    DB.getAllEmployees
 
     inquirer.prompt([
 
@@ -111,7 +109,7 @@ function addEmployee() {
             message: 'What is the employee\'s last name?'
         },
 
-        
+
         {
             type: 'list',
             name: 'newEmployeeRole',
@@ -145,34 +143,77 @@ function addEmployee() {
 
 function updateEmployeeRole() {
 
-    viewEmployees()
+    DB.getAllEmployees().then(([rows, fields]) => {
+        console.table(rows);
+        return rows;
+    })
 
-    inquirer.prompt([
+        .then((rows) => {
 
-        {
-            type: 'list',
-            name: 'employeeNewRole',
-            message: 'Which employee\'s role would you like to update?',
-            choices: [``]
-        },
+            const employeeChoices = rows.map((element) => {
 
-        {
-            name: 'newEmployeeRoleName',
-            message: 'Which role do you want to assign the selected employee?',
-            choices: []
-        }
+                return {
+                    name: `${element.first_name} ${element.last_name}`,
+                    value: element.id
+                }
+            })
 
 
+            inquirer.prompt([
 
-    ])
-        .then(res => {
+                {
+                    type: 'list',
+                    name: 'employeeId',
+                    message: 'Which employee\'s role would you like to update?',
+                    choices: employeeChoices
 
 
+                },
+            ])
+                .then(res => {
 
-            console.log('Updated employee role')
+                    const employeeId = res.employeeId
 
-            init()
+                    DB.getAllRoles().then(([rows, fields]) => {
+
+                        const roleChoies = rows.map((element) => {
+                            return {
+                                name: `${element.title}`,
+                                value: element.id
+                            }
+                        })
+
+                        inquirer.prompt([
+
+                            {
+                                type: 'list',
+                                name: 'employeeRoleId',
+                                message: 'What is the role you want to assign this employee?',
+                                choices: roleChoies
+                            }
+
+                        ])
+                        .then(res => {
+                            DB.updateEmployeeRole(res.employeeRoleId, employeeId) 
+                        })
+                        .then(() => {
+                            console.log('Sucessfully Updated Employee')
+                            init()
+                        })
+                    })
+
+                }
+
+                )
         })
+
+    // .catch(console.log)
+
+    // {
+    //     name: 'newEmployeeRoleName',
+    //     message: 'Which role do you want to assign the selected employee?',
+    //     choices: []
+    // }
 
 }
 
