@@ -22,8 +22,6 @@ class Database {
         return this.connection.promise().query('SELECT * FROM department')
     }
 
-     
-
     getAllRoles() {
         return this.connection.promise().query('SELECT * FROM role')
     }

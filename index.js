@@ -93,52 +93,94 @@ function viewAllDepartments() {
 }
 
 
-
-
 function addEmployee() {
 
-    inquirer.prompt([
+    DB.getAllRoles()
+        .then(([rows, fields]) => {
 
-        {
-            name: 'newEmployeeFirstName',
-            message: 'What is the employee\'s first name?',
-        },
+            const roleChoices = rows.map(role => {
+                return { name: role.title, value: role.id }
+            })
 
-        {
-            name: 'newEmployeeLastName',
-            message: 'What is the employee\'s last name?'
-        },
+            inquirer.prompt([
 
+                {
+                    name: 'newEmployeeFirstName',
+                    message: 'What is the employee\'s first name?',
+                },
 
-        {
-            type: 'list',
-            name: 'newEmployeeRole',
-            message: 'What is the new employee\'s role?',
-            choices: [`${roles}`]
-        },
-
-        {
-            type: 'list',
-            name: 'newEmployeeManager',
-            message: 'Who is the new employee\'s manager?',
-            choices: [`${managers}`]
-
-        }
-
-    ])
+                {
+                    name: 'newEmployeeLastName',
+                    message: 'What is the employee\'s last name?'
+                },
 
 
-        .then(res => {
+                {
+                    type: 'list',
+                    name: 'newEmployeeRole',
+                    message: 'What is the new employee\'s role?',
+                    choices: roleChoices
+                },
+
+                // {
+                //     type: 'list',
+                //     name: 'newEmployeeManager',
+                //     message: 'Who is the new employee\'s manager?',
+                //     choices: [`${managers}`]
+
+                // }
+
+            ])
+
+                .then(roleRes => {
+                    // const roleRes = res
+                    DB.getAllEmployees()
+                        .then(([rows, fields]) => {
+
+                            const managerChoices = rows.map(manager => {
+                                return { name: `${manager.first_name} ${manager.last_name}`, value: manager.id }
+                            })
+
+                            inquirer.prompt([
+                                {
+
+                                    type: 'list',
+                                    name: 'newEmployeeManager',
+                                    message: 'Who is the new employee\'s manager?',
+                                    choices: managerChoices
+
+                                }
+
+                            ])
+                                .then((res) => {
+                                    const empToCreate = {
+                                        first_name: roleRes.newEmployeeFirstName,
+                                        last_name: roleRes.newEmployeeLastName,
+                                        manager_id: res.newEmployeeManager,
+                                        role_id: roleRes.newEmployeeRole
+                                    }
+                                    console.log(empToCreate)
+                                    //  DB.createEmployee(empToCreate)
+                                })
+                                .catch((error) => {
+                                    console.log(error)
+                                })
+
+                        })
+
+                        .then(() => {
+
+                        })
+                        .catch((error) => {
+                            console.log(error)
+                        })
 
 
+                    console.log('Added New Employee')
 
-            console.log('Added New Employee')
-
-            init()
+                })
 
         })
-
-
 }
 
 function updateEmployeeRole() {
@@ -193,13 +235,13 @@ function updateEmployeeRole() {
                             }
 
                         ])
-                        .then(res => {
-                            DB.updateEmployeeRole(res.employeeRoleId, employeeId) 
-                        })
-                        .then(() => {
-                            console.log('Sucessfully Updated Employee')
-                            init()
-                        })
+                            .then(res => {
+                                DB.updateEmployeeRole(res.employeeRoleId, employeeId)
+                            })
+                            .then(() => {
+                                console.log('Sucessfully Updated Employee')
+                                init()
+                            })
                     })
 
                 }
