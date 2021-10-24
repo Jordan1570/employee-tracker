@@ -133,7 +133,6 @@ function addEmployee() {
             ])
 
                 .then(roleRes => {
-                    // const roleRes = res
                     DB.getAllEmployees()
                         .then(([rows, fields]) => {
 
@@ -160,7 +159,7 @@ function addEmployee() {
                                         role_id: roleRes.newEmployeeRole
                                     }
                                     console.log(empToCreate)
-                                    //  DB.createEmployee(empToCreate)
+                                    DB.addEmployee(empToCreate)
                                 })
                                 .catch((error) => {
                                     console.log(error)
@@ -218,7 +217,7 @@ function updateEmployeeRole() {
 
                     DB.getAllRoles().then(([rows, fields]) => {
 
-                        const roleChoies = rows.map((element) => {
+                        const roleChoices = rows.map((element) => {
                             return {
                                 name: `${element.title}`,
                                 value: element.id
@@ -231,7 +230,7 @@ function updateEmployeeRole() {
                                 type: 'list',
                                 name: 'employeeRoleId',
                                 message: 'What is the role you want to assign this employee?',
-                                choices: roleChoies
+                                choices: roleChoices
                             }
 
                         ])
@@ -262,38 +261,49 @@ function updateEmployeeRole() {
 function addRole() {
 
     console.log('Adding Role')
+    // map through the departments to have department choices
+    DB.getAllDepartments().then(([rows, fields]) => {
 
-    inquirer.prompt([
+        const departmentChoices = rows.map((element) => {
 
-        {
-            type: 'input',
-            name: 'newRole',
-            message: 'What is the name of the role?',
-        },
+            return {
+                name: `${element.name}`,
+                value: element.id
+            }
 
-        {
-            type: 'input',
-            name: 'newRoleSalary',
-            message: 'What is the salary of the role?'
-        },
-
-        {
-            type: 'list',
-            name: 'newRolesDepartment',
-            message: 'Which department does this role belong to?',
-            choices: [`${departments}`]
-        }
-
-    ])
-        .then(res => {
-
-            addRole()
-
-            console.log('Added New Role to the database')
-
-            init()
         })
 
+        inquirer.prompt([
+
+            {
+                type: 'input',
+                name: 'newRole',
+                message: 'What is the name of the role?',
+            },
+
+            {
+                type: 'input',
+                name: 'newRoleSalary',
+                message: 'What is the salary of the role?'
+            },
+
+            {
+                type: 'list',
+                name: 'newRolesDepartment',
+                message: 'Which department does this role belong to?',
+                choices: departmentChoices
+            }
+
+        ])
+            .then(res => {
+
+                addRole()
+
+                console.log('Added New Role to the database')
+
+                init()
+            })
+    })
 }
 
 function addDepartment() {
@@ -307,8 +317,14 @@ function addDepartment() {
 
     ])
         .then(res => {
+            const deptToCreate = {
+                name: res.newDepartment,
+            }
 
-            addDepartment()
+            DB.addDepartment(deptToCreate)
+
+            console.log("Dept Created")
+            init()
 
         })
 

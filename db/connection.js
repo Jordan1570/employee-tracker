@@ -37,33 +37,23 @@ class Database {
     }
 
     getRoleById(roleId) {
-        return this.connection.promise().query(`SELECT * FROM role WHERE id = ${roleId}`, function (err, results) {
-            console.table(results);
-        });
+        return this.connection.promise().query(`SELECT * FROM role WHERE id = ${roleId}`);
     }
 
     addDepartment(newDept) {
-        return this.connection.promise().query(`INSERT INTO departments (name) VALUES ${newDept}`, function (err, results) {
-            console.log(results)
-        });
+        return this.connection.promise().query(`INSERT INTO department SET ?`, newDept);
     }
 
     addRole(newRole) {
-        return this.connection.promise().query(`INSERT INTO role (name) VALUES ('${newRole}')`, function (err, results) {
-            console.log(results)
-        });
+        return this.connection.promise().query(`INSERT INTO role SET ?`, newRole);
     }
 
     addEmployee(newEmployee) {
-        return this.connection.promise().query(`INSERT INTO employee (name) VALUES ('${newEmployee}')`, function (err, results) {
-            console.log(results)
-        });
+        return this.connection.promise().query(`INSERT INTO employee SET ?`, newEmployee);
     }
 
     updateEmployeeRole(newEmployeeRole, employeeId) {
-
         return this.connection.promise().query(`UPDATE employee SET role_id = ${newEmployeeRole} WHERE id = ${employeeId}`)
-
     }
 }
 
