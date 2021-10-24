@@ -54,6 +54,12 @@ class Database {
         });
     }
 
+    addEmployee(newEmployee) {
+        return this.connection.promise().query(`INSERT INTO name (name) VALUES ('${newEmployee}')`, function (err, results) {
+            console.log(results)
+        });
+    }
+
     updateEmployeeRole(newEmployeeRole, employeeId) {
 
         return this.connection.promise().query(`UPDATE employee SET role_id = ${newEmployeeRole} WHERE id = ${employeeId}`)
