@@ -55,7 +55,7 @@ class Database {
     }
 
     addEmployee(newEmployee) {
-        return this.connection.promise().query(`INSERT INTO name (name) VALUES ('${newEmployee}')`, function (err, results) {
+        return this.connection.promise().query(`INSERT INTO employee (name) VALUES ('${newEmployee}')`, function (err, results) {
             console.log(results)
         });
     }
