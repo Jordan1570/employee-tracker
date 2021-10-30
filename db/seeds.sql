@@ -14,7 +14,7 @@ INSERT INTO role (title, salary, department_id)
            ("Legal Team Lead", "250000", 1),
            ("Lawyer", "190000", 1),
            ("Sales Lead", "100000", 2);
-         
+
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
     VALUES ("Jeffrey", "Knight", 1, null),
            ("Juwan", "Dolbrice", 2, 1),
@@ -25,3 +25,5 @@ INSERT INTO employee (first_name, last_name, role_id, manager_id)
            ("Corie", "Knight", 7, null),
            ("Aliah", "Knight", 8, 7 ),
            ("Diane", "Scott", 9, null );
+
+        --    need to fix view employee table, id, fn, ln, title, department, salary, manager
