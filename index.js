@@ -122,14 +122,6 @@ function addEmployee() {
                     choices: roleChoices
                 },
 
-                // {
-                //     type: 'list',
-                //     name: 'newEmployeeManager',
-                //     message: 'Who is the new employee\'s manager?',
-                //     choices: [`${managers}`]
-
-                // }
-
             ])
 
                 .then(roleRes => {
@@ -296,13 +288,24 @@ function addRole() {
 
         ])
             .then(res => {
+                const roleToCreate = {
+                    title: res.newRole,
+                    department_id: res.newRolesDepartment,
+                    salary: res.newRoleSalary
+                }
 
-                addRole()
+                console.log(roleToCreate)
+                DB.addRole(roleToCreate)
+
+
+
+                // addRole()
 
                 console.log('Added New Role to the database')
-
                 init()
+
             })
+            
     })
 }
 
